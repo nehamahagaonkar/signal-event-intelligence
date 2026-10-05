@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: signal-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: signal_db
+      POSTGRES_USER: signal_user
+      POSTGRES_PASSWORD: signal_dev_password
+
+    ports:
+      - "5433:5432"
+
+    volumes:
+      - signal_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  signal_postgres_data:

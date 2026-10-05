@@ -1,0 +1,26 @@
+@"
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Next.js
+frontend/node_modules/
+frontend/.next/
+frontend/out/
+
+# Vercel
+.vercel/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+"@ | Set-Content .gitignore
