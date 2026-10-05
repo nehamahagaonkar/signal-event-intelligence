@@ -1,45 +1,46 @@
-import json
-from urllib.request import Request, urlopen
-from urllib.error import URLError, HTTPError
+import os
+
+from google import genai
 
 
-OLLAMA_URL = "http://localhost:11434/api/generate"
-MODEL_NAME = "llama3.2:3b"
+MODEL_NAME = "gemini-2.5-flash"
 
 
-def generate_with_ollama(prompt: str) -> str:
-    payload = json.dumps({
-        "model": MODEL_NAME,
-        "prompt": prompt,
-        "stream": False,
-    }).encode("utf-8")
+def get_client():
+    api_key = os.getenv("GEMINI_API_KEY")
 
-    request = Request(
-        OLLAMA_URL,
-        data=payload,
-        headers={
-            "Content-Type": "application/json",
-        },
-        method="POST",
-    )
-
-    try:
-        with urlopen(request, timeout=120) as response:
-            result = json.loads(
-                response.read().decode("utf-8")
-            )
-
-        return result.get("response", "").strip()
-
-    except HTTPError as error:
+    if not api_key:
         raise RuntimeError(
-            f"Ollama returned HTTP {error.code}"
+            "GEMINI_API_KEY is not configured."
         )
 
-    except URLError:
+    return genai.Client(api_key=api_key)
+
+
+def generate_with_gemini(prompt: str) -> str:
+    try:
+        client = get_client()
+
+        response = client.models.generate_content(
+            model=MODEL_NAME,
+            contents=prompt,
+        )
+
+        text = response.text
+
+        if not text:
+            raise RuntimeError(
+                "Gemini returned an empty response."
+            )
+
+        return text.strip()
+
+    except RuntimeError:
+        raise
+
+    except Exception as error:
         raise RuntimeError(
-            "Could not connect to Ollama. "
-            "Make sure Ollama is running."
+            f"Gemini API request failed: {error}"
         )
 
 
@@ -62,7 +63,7 @@ Interaction notes:
 Return only the summary.
 """
 
-    return generate_with_ollama(prompt)
+    return generate_with_gemini(prompt)
 
 
 def draft_follow_up(
@@ -92,4 +93,4 @@ Requirements:
 Return only the email body.
 """
 
-    return generate_with_ollama(prompt)
+    return generate_with_gemini(prompt)
