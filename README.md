@@ -8,8 +8,7 @@
 [![Gemini](https://img.shields.io/badge/AI-Gemini%202.5%20Flash-4285F4?logo=google)](https://ai.google.dev/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](#license)
 
-**Live application:** https://signal-event-intelligence-q3rk2i0q-neham1.vercel.app  
-**API:** https://signal-event-intelligence.onrender.com  
+**Live application:** https://signal-event-intelligence.vercel.app
 **API documentation:** https://signal-event-intelligence.onrender.com/docs
 
 ---
@@ -633,7 +632,8 @@ The central product idea is straightforward:
 ## Author
 
 **Neha Mahagaonkar**  
-MSc Data Science / Data Science & AI
+MSc Data Science and AI
+Mithibai College, Mumbai 
 
 GitHub: https://github.com/nehamahagaonkar
 
